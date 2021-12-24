@@ -1,0 +1,35 @@
+\documentclass[a4paper,master=mai,masteroption=ecs,english]{kulemt}
+\setup{
+  inputenc=utf8,
+  title={Neural network calibration for DeepProbLog},
+  author={Joshua Schroijen},
+  promotor={Prof.\,Luc De Raedt},
+  assessor={},
+  assistant={Dr.\,Ir.\,Robin Manhaeve}
+}
+\setup{font=lm}
+\begin{document}
+\begin{preface}
+\input{preface}
+\end{preface}
+\tableofcontents*
+\begin{abstract}
+\input{abstract}
+\end{abstract}
+\listoffiguresandtables
+\chapter{List of Abbreviations and Symbols}
+\section*{Abbreviations}
+\input{abbreviations}
+\section*{Symbols}
+\mainmatter
+\chapter{Introduction}
+\include{introduction}
+\chapter{Literature review}
+\include{literature_review}
+\appendixpage*
+\appendix
+%\include{app-A}
+\backmatter
+\bibliographystyle{apalike}
+\bibliography{references}
+\end{document}
