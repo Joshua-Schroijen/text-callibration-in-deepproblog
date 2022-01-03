@@ -7,4 +7,36 @@ In this work we want to evaluate and analyze the impact of callibration on repre
   \item there is room to improve it through callibrating (parts of) models
 \end{itemize}
 If the first and third criterions are not met, there is no reason to use DeepProbLog and/or callibration and the knowledge we'd gain and features we'd create would not necessarily be relevant to our target audience. That's why we disregard most well-known AI toy problems such as playing chess, the N-queens problem and MNIST digit recognition and we start with reservations about using the DeepProbLog demonstration problems showcased by \cite{manhaeve2018deepproblog}. But we do require widely used challenges like the general AI toy problems so that our work's properties and performance can be easily compared to those of other approaches (\cite{russell2002artificial}), hence our second criterion. \par
-We then performed a shallow literature scan of neuro-symbolic integration to find recurring themes and toy problems in this field of research. The scientific literature search engines Google Scholar (by Google) and Limo (by KU Leuven) were used to search for papers containing the keywords "neuro", "symbolic" and "integration" simultaneously. 
+We then performed a shallow literature scan of neuro-symbolic integration to find recurring themes and toy problems in this field of research. The scientific literature search engines Google Scholar (by Google) and Limo (by KU Leuven) were used to search for papers containing the keywords "neuro", "symbolic" and "integration" simultaneously. 63 random papers were chosen from the results. A breakdown of the problem categories these papers work in is given in table \ref{subject_breakdown}. Papers can work in multiple categories, the count column shows how many work in the category and the \% column shows what percentage of the 63 work in it.
+\begin{table}[h!]
+\centering
+\begin{tabular}{ |c|c|c| }
+ \hline
+ \textbf{Category} & \textbf{Count} & \textbf{\%} \\
+ \hline
+ Acoustic information processing & 1 & 1.59\% \\
+ \hline
+ Actuarial science & 2 & 3.17\% \\
+ \hline
+ Natural sciences modelling & 2 & 3.17\% \\
+ \hline
+ Control theory & 4 & 6.35\% \\
+ \hline
+ Fraud detection & 1 & 1.59\% \\
+ \hline
+ Natural language processing & 7 & 11.11\% \\
+ \hline
+ Numerical analysis & 1 & 1.59\% \\
+ \hline
+ Robotics & 2 & 3.17\% \\
+ \hline
+ Social \& political sciences & 2 & 3.17\% \\
+ \hline
+ Symbolic knowledge \& structured data processing & 33 & 52.38\%  \\
+ \hline
+ Visual information processing & 16 & 25.40\%  \\
+ \hline
+\end{tabular}
+\caption{Subfield breakdown of neuro-symbolic integration research}
+\label{subject_breakdown}
+\end{table}
