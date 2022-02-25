@@ -1,7 +1,21 @@
-\section{Review of callibration methods}
-...
-This formula $f(x) = x^2$ is an example.
-...
+\section{Review of the callibration problem and methods}
+In this section we will summarize \cite{guo2017calibration}'s findings and propositions on the topic of neural network callibration.
+
+\subsection{The general problem of neural network model callibration degradation}
+\cite{guo2017calibration} discovered that they could not confirm \cite{niculescu2005predicting}'s observation that neural networks (for binary classification) were typically well-calibrated for the latest generation of deep neural network models. \cite{lecun1998gradient}'s 5-layer LeNet was compared to \cite{he2016deep}'s 110 layer ResNet on the CIFAR-100 dataset. This comparison is visualized in figure \ref{fig:lenet_vs_resnet_callibration_guo_et_al}, where the top row shows prediction confidence histograms and the bottom row shows reliability diagrams (RDs). RDs show a model's accuracy as a function of its confidence. A perfectly callibrated model has a 45° angled line as its RD. Figure \ref{fig:lenet_vs_resnet_callibration_guo_et_al} shows a striking overconfidence of the ResNet on CIFAR-100 while showing the LeNet has an almost perfect RD on it.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.8\linewidth]{images/lenet_vs_resnet_callibration_guo_et_al.jpg}
+  \caption[5-layer LeNet's vs. 110-layer ResNet's callibration.]{5-layer LeNet (left) vs. 110-layer ResNet (right) callibration.}
+  \label{fig:lenet_vs_resnet_callibration_guo_et_al}
+  \source{\cite{guo2017calibration}}
+\end{figure}
+
+%...
+%This formula $f(x) = x^2$ is an example.
+%...
+
 \section{Review of applications of interest}
 In this work we want to evaluate and analyze the impact of callibration on representative DeepProbLog use-cases where it presents a considerable issue. Unfortunately, these use-cases are not a given. To find and choose some, we first required that:
 \begin{itemize}
