@@ -18,16 +18,12 @@ In this section we will summarize \cite{guo2017calibration}'s findings and propo
 %...
 
 \subsection{Calibration metrics}
-We will discuss calibration metrics for supervised multiclass classification.
+\cite{guo2017calibration} enumerate several calibration metrics for supervised multiclass classification.
 
-\subsubsection{Definitions}
-The input $X \in \mathcal{X}$ and label $Y \in \mathcal{Y}=\{1, \ldots, K\}$ are random variables that follow a ground truth joint distribution $\pi(X, Y)=$ $\pi(Y \mid X) \pi(X)$.
+\subsubsection{Supporting definitions and notation}
+The input $X \in \mathcal{X}$ and label $Y \in \mathcal{Y}=\{1, \ldots, K\}$ are random variables that follow a ground truth joint distribution $\pi(X, Y)=$ $\pi(Y \mid X) \pi(X)$. Let $h$ be a neural network with $h(X)=$ $(\hat{Y}, \hat{P})$, where $\hat{Y}$ is a class prediction and $\hat{P}$ is its confidence or self-estimated probability of correctness. $\hat{P}$ should be calibrated, i.e. represent a true probability. Formally, perfect calibration is defined as $$\mathbb{P}(\hat{Y}=Y \mid \hat{P}=p)=p, \quad \forall p \in[0,1]$$
 
-% Let $h$ be a neural network with $h(X)=$ $(\hat{Y}, \hat{P})$, where $\hat{Y}$ is a class prediction and $\hat{P}$ is its associated confidence, i.e. probability of correctness. We would like the confidence estimate $\hat{P}$ to be calibrated, which intuitively means that $\hat{P}$ represents a true probability. For example, given 100 predictions, each with confidence of $0.8$, we expect that 80 should be correctly classified. More formally, we define perfect calibration as
-% $$
-% \mathbb{P}(\hat{Y}=Y \mid \hat{P}=p)=p, \quad \forall p \in[0,1]
-% $$
-% where the probability is over the joint distribution. In all practical settings, achieving perfect calibration is impossible. Additionally, the probability in (1) cannot be computed using finitely many samples since $\hat{P}$ is a continuous random variable. This motivates the need for empirical approximations that capture the essence of (1).
+% where the probability is over the joint distribution. Achieving perfect calibration is impossible in practice. Additionally, the probability in (1) cannot be computed using finitely many samples since $\hat{P}$ is a continuous random variable. This motivates the need for empirical approximations that capture the essence of (1).
 
 % Reliability Diagrams (e.g. Figure 1 bottom) are a visual representation of model calibration (DeGroot \& Fienberg, 1983; Niculescu-Mizil \& Caruana, 2005). These diagrams plot expected sample accuracy as a function of confidence. If the model is perfectly calibrated - i.e. if (1) holds - then the diagram should plot the identity function. Any deviation from a perfect diagonal represents miscalibration
 
