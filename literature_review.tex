@@ -1,4 +1,4 @@
-\section{Review of the calibration problem and methods}
+\section{Review of the calibration problem and calibration methods}
 In this section we will summarize \cite{guo2017calibration}'s findings and propositions on the topic of neural network calibration.
 
 \subsection{The general problem of neural network model calibration degradation}
@@ -13,15 +13,15 @@ In this section we will summarize \cite{guo2017calibration}'s findings and propo
 \end{figure}
 \newpage
 
-%...
-%This formula $f(x) = x^2$ is an example.
-%...
-
 \subsection{Calibration metrics}
 \cite{guo2017calibration} enumerate several calibration metrics for supervised multiclass classification.
 
 \subsubsection{Supporting definitions and notation}
-The input $X \in \mathcal{X}$ and label $Y \in \mathcal{Y}=\{1, \ldots, K\}$ are random variables that follow a ground truth joint distribution $\pi(X, Y)=$ $\pi(Y \mid X) \pi(X)$. Let $h$ be a neural network with $h(X)=$ $(\hat{Y}, \hat{P})$, where $\hat{Y}$ is a class prediction and $\hat{P}$ is its confidence or self-estimated probability of correctness. $\hat{P}$ should be calibrated, i.e. represent a true probability. Formally, perfect calibration is defined as $$\mathbb{P}(\hat{Y}=Y \mid \hat{P}=p)=p, \quad \forall p \in[0,1]$$
+The input $X \in \mathcal{X}$ and label $Y \in \mathcal{Y}=\{1, \ldots, K\}$ are random variables that follow a ground truth joint distribution $\pi(X, Y)=$ $\pi(Y \mid X) \pi(X)$. Let $h$ be a neural network with $h(X)=$ $(\hat{Y}, \hat{P})$, where $\hat{Y}$ is a class prediction and $\hat{P}$ is its confidence or self-estimated probability of correctness. Neural network $h$ is defined as perfectly calibrated if and only if equation \ref{eqn:perfect_calibration} holds.
+\begin{equation}
+  \label{eqn:perfect_calibration}
+  \mathbb{P}(\hat{Y}=Y \mid \hat{P}=p)=p, \quad \forall p \in[0,1]
+\end{equation}
 
 % where the probability is over the joint distribution. Achieving perfect calibration is impossible in practice. Additionally, the probability in (1) cannot be computed using finitely many samples since $\hat{P}$ is a continuous random variable. This motivates the need for empirical approximations that capture the essence of (1).
 
