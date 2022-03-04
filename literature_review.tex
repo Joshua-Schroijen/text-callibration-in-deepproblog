@@ -2,7 +2,7 @@
 In this section we will summarize \cite{guo2017calibration}'s findings and propositions on the topic of neural network calibration.
 
 \subsection{The general problem of neural network model calibration degradation}
-\cite{guo2017calibration} discovered that they could not confirm \cite{niculescu2005predicting}'s observation that neural networks (for binary classification) were typically well-calibrated for the latest generation of deep neural network models. \cite{lecun1998gradient}'s 5-layer LeNet was compared to \cite{he2016deep}'s 110 layer ResNet on the CIFAR-100 dataset. This comparison is visualized in figure \ref{fig:lenet_vs_resnet_calibration_guo_et_al}, where the top row shows prediction confidence histograms and the bottom row shows reliability diagrams (RDs). RDs show a model's accuracy as a function of its confidence. A perfectly callibrated model has a 45° angled line as its RD. Figure \ref{fig:lenet_vs_resnet_calibration_guo_et_al} shows a striking overconfidence of the ResNet on CIFAR-100 while showing the LeNet has an almost perfect RD on it. \cite{guo2017calibration} thus proposes that the modern ResNet has gained in accuracy over the older LeNet by, through some mechanism, sacrificing calibration. Through abductive reasoning \cite{guo2017calibration} hypothesizes and substantiates that this is a general and explainable evolutionary trend in artificial neural network R\&D that one could call calibration degradation. 
+\cite{guo2017calibration} discovered that they could not confirm \cite{niculescu2005predicting}'s observation that neural networks (for binary classification) were typically well-calibrated for the latest generation of deep neural network models. \cite{lecun1998gradient}'s 5-layer LeNet was compared to \cite{he2016deep}'s 110 layer ResNet on the CIFAR-100 dataset. This comparison is visualized in figure \ref{fig:lenet_vs_resnet_calibration_guo_et_al}, where the top row shows prediction confidence histograms and the bottom row shows reliability diagrams (RDs). RDs show a model's accuracy as a function of its confidence. A perfectly callibrated model has a 45° angled line, i.e. the identity function, as its RD. Figure \ref{fig:lenet_vs_resnet_calibration_guo_et_al} shows a striking overconfidence of the ResNet on CIFAR-100 while showing the LeNet has an almost perfect RD on it. \cite{guo2017calibration} thus proposes that the modern ResNet has gained in accuracy over the older LeNet by, through some mechanism, sacrificing calibration. Through abductive reasoning \cite{guo2017calibration} hypothesizes and substantiates that this is a general and explainable evolutionary trend in artificial neural network R\&D that one could call calibration degradation. 
 
 \begin{figure}[htbp!]
   \centering
@@ -13,29 +13,32 @@ In this section we will summarize \cite{guo2017calibration}'s findings and propo
 \end{figure}
 \newpage
 
-\subsection{Calibration metrics}
+\subsection{Formal calibration definitions and metrics}
 \cite{guo2017calibration} enumerate several calibration metrics for supervised multiclass classification.
 
 \subsubsection{Supporting definitions and notation}
-The input $X \in \mathcal{X}$ and label $Y \in \mathcal{Y}=\{1, \ldots, K\}$ are random variables that follow a ground truth joint distribution $\pi(X, Y)=$ $\pi(Y \mid X) \pi(X)$. Let $h$ be a neural network with $h(X)=$ $(\hat{Y}, \hat{P})$, where $\hat{Y}$ is a class prediction and $\hat{P}$ is its confidence or self-estimated probability of correctness. Neural network $h$ is defined as perfectly calibrated if and only if equation \ref{eqn:perfect_calibration} holds.
+The input $X \in \mathcal{X}$ and label $Y \in \mathcal{Y}=\{1, \ldots, K\}$ are random variables that follow a ground truth joint distribution $\pi(X, Y)=$ $\pi(Y \mid X) \pi(X)$. Let $h$ be a neural network with $h(X)=$ $(\hat{Y}, \hat{P})$, where $\hat{Y}$ is a class prediction and $\hat{P}$ is its confidence or self-estimated probability of correctness. Neural network $h$ is theoretically defined as perfectly calibrated if and only if equation \ref{eqn:perfect_calibration_in_theory} holds over the ground truth joint distribution $\pi(X, Y)$.
 \begin{equation}
-  \label{eqn:perfect_calibration}
+  \label{eqn:perfect_calibration_in_theory}
   \mathbb{P}(\hat{Y}=Y \mid \hat{P}=p)=p, \quad \forall p \in[0,1]
 \end{equation}
 
-% where the probability is over the joint distribution. Achieving perfect calibration is impossible in practice. Additionally, the probability in (1) cannot be computed using finitely many samples since $\hat{P}$ is a continuous random variable. This motivates the need for empirical approximations that capture the essence of (1).
+Equation \ref{eqn:perfect_calibration_in_theory} is not practically applicable: $p$ is a continuous variable, therefore equation \ref{eqn:perfect_calibration_in_theory}'s satisfaction cannot be checked in finite time. Equation \ref{eqn:perfect_calibration_in_practice} can instead be used in practice. It is a binning method where predictions are grouped into $M$ equally sized bins over the interval $\interval{0}{1}$ based on their associated confidence.
 
-% Reliability Diagrams (e.g. Figure 1 bottom) are a visual representation of model calibration (DeGroot \& Fienberg, 1983; Niculescu-Mizil \& Caruana, 2005). These diagrams plot expected sample accuracy as a function of confidence. If the model is perfectly calibrated - i.e. if (1) holds - then the diagram should plot the identity function. Any deviation from a perfect diagonal represents miscalibration
+\begin{align}
+  \label{eqn:perfect_calibration_in_practice}
+  \operatorname{acc}\left(B_{m}\right) &= \operatorname{conf}\left(B_{m}\right) \\ \nonumber
+  \text{where}~\operatorname{acc}\left(B_{m}\right) &= \frac{1}{\left|B_{m}\right|} \sum_{i \in B_{m}} \mathbf{1}\left(\hat{y}_{i}=y_{i}\right), \\ \nonumber
+  \operatorname{conf}\left(B_{m}\right) &= \frac{1}{\left|B_{m}\right|} \sum_{i \in B_{m}} \hat{p}_{i}, \\ \nonumber
+%  B_{m} &= \text{The set of indices of samples whose prediction confidence falls into the interval $I_{m}$}, \\ \nonumber
+  B_{m} &= \parbox[t]{8cm}{\raggedright The set of indices of samples whose prediction confidence falls into the interval $I_{m}$,} \\ \nonumber
+  I_{m} &= \left[\frac{m-1}{M}, \frac{m}{M}\right] \nonumber
+\end{align}
 
-% To estimate the expected accuracy from finite samples, we group predictions into $M$ interval bins (each of size $1 / M$ ) and calculate the accuracy of each bin. Let $B_{m}$ be the set of indices of samples whose prediction confidence falls into the interval $I_{m}=\left(\frac{m-1}{M}, \frac{m}{M}\right] .$ The accuracy of $B_{m}$ is
-% $$
-% \operatorname{acc}\left(B_{m}\right)=\frac{1}{\left|B_{m}\right|} \sum_{i \in B_{m}} \mathbf{1}\left(\hat{y}_{i}=y_{i}\right)
-% $$
-% where $\hat{y}_{i}$ and $y_{i}$ are the predicted and true class labels for sample $i$. Basic probability tells us that acc $\left(B_{m}\right)$ is an unbiased and consistent estimator of $\mathbb{P}\left(\hat{Y}=Y \mid \hat{P} \in I_{m}\right)$. We define the average confidence within bin $B_{m}$ as
-% $$
-% \operatorname{conf}\left(B_{m}\right)=\frac{1}{\left|B_{m}\right|} \sum_{i \in B_{m}} \hat{p}_{i}
-% $$
-% where $\hat{p}_{i}$ is the confidence for sample $i . \operatorname{acc}\left(B_{m}\right)$ and $\operatorname{conf}\left(B_{m}\right)$ approximate the left-hand and right-hand sides of (1) respectively for bin $B_{m}$. Therefore, a perfectly calibrated model will have $\operatorname{acc}\left(B_{m}\right)=\operatorname{conf}\left(B_{m}\right)$ for all $m \in\{1, \ldots, M\} .$ Note that reliability diagrams do not display the proportion of samples in a given bin, and thus cannot be used to estimate how many samples are calibrated.
+%where $\hat{y}_{i}$ and $y_{i}$ are the predicted and true class labels for sample $i$. Basic probability tells us that acc $\left(B_{m}\right)$ is an unbiased and consistent estimator of $\mathbb{P}\left(\hat{Y}=Y \mid \hat{P} \in I_{m}\right)$. We define the average confidence within bin $B_{m}$ as
+%$$
+%$$
+%where $\hat{p}_{i}$ is the confidence for sample $i . \operatorname{acc}\left(B_{m}\right)$ and $\operatorname{conf}\left(B_{m}\right)$ approximate the left-hand and right-hand sides of (1) respectively for bin $B_{m}$. Therefore, a perfectly calibrated model will have $\operatorname{acc}\left(B_{m}\right)=\operatorname{conf}\left(B_{m}\right)$ for all $m \in\{1, \ldots, M\} .$ Note that reliability diagrams do not display the proportion of samples in a given bin, and thus cannot be used to estimate how many samples are calibrated.
 
 
 
