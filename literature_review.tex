@@ -14,7 +14,7 @@ In this section we will summarize \cite{guo2017calibration}'s findings and propo
 \newpage
 
 \subsection{Formal calibration definitions and metrics}
-\cite{guo2017calibration} provide a rigorous definition of perfect calibration and enumerate several calibration metrics for supervised multiclass classification.
+\cite{guo2017calibration} provide a rigorous definition of and enumerate several metrics for the calibration of supervised multiclass classification.
 
 \subsubsection{Notation and the formal perfect calibration definition}
 The input $X \in \mathcal{X}$ and label $Y \in \mathcal{Y}=\{1, \ldots, K\}$ are random variables that follow a ground truth joint distribution $\pi(X, Y)=$ $\pi(Y \mid X) \pi(X)$. Let $h$ be a neural network with $h(X)=$ $(\hat{Y}, \hat{P})$, where $\hat{Y}$ is a class prediction and $\hat{P}$ is its confidence or self-estimated probability of correctness. Neural network $h$ is theoretically defined as perfectly calibrated if and only if equation \ref{eqn:perfect_calibration_in_theory} holds over the ground truth joint distribution $\pi(X, Y)$.
@@ -40,6 +40,24 @@ Equation \ref{eqn:perfect_calibration_in_theory} is not practically applicable: 
 $\operatorname{acc}\left(B_{m}\right)$ is an unbiased and consistent estimator of $\mathbb{P}\left(\hat{Y}=Y \mid \hat{P} \in I_{m}\right)$ by basic probability theory.
 
 \subsubsection{Calibration metrics}
+\paragraph{Expected Calibration Error (ECE)}
+\begin{equation}
+  \underset{\hat{P}}{\mathbb{E}}[|\mathbb{P}(\hat{Y}=Y \mid \hat{P}=p)-p|]
+\end{equation}
+\begin{equation}
+  \mathrm{ECE}=\sum_{m=1}^{M} \frac{\left|B_{m}\right|}{n}\left|\operatorname{acc}\left(B_{m}\right)-\operatorname{conf}\left(B_{m}\right)\right| \text {, }
+\end{equation}
+\paragraph{Maximum Calibration Error (MCE)}
+\begin{equation}
+  \max _{p \in[0,1]}|\mathbb{P}(\hat{Y}=Y \mid \hat{P}=p)-p| \text {. }
+\end{equation}
+\begin{equation}
+  \mathrm{MCE}=\max _{m \in\{1, \ldots, M\}}\left|\operatorname{acc}\left(B_{m}\right)-\operatorname{conf}\left(B_{m}\right)\right|
+\end{equation}
+\paragraph{Negative log-likelihood (NLL)}
+\begin{equation}
+  \mathcal{L}=-\sum_{i=1}^{n} \log \left(\hat{\pi}\left(y_{i} \mid \mathbf{x}_{i}\right)\right)
+\end{equation}
 
 \section{Review of applications of interest}
 In this work we want to evaluate and analyze the impact of calibration on representative DeepProbLog use-cases where it presents a considerable issue. Unfortunately, these use-cases are not a given. To find and choose some, we first required that:
