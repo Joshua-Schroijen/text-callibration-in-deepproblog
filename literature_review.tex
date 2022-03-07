@@ -69,10 +69,15 @@ Equation \ref{eqn:mce_theoretical} cannot be evaluated in practice because $\hat
 The maximum calibration error metric is appropriate for use in model calibration optimization if calibration outliers are problematic. MCE is ideally 0.
 
 \paragraph{Negative log-likelihood (NLL)}
-\begin{equation}
+Negative log-likelihood (also commonly known as cross-entropy loss in deep learning) $\mathcal{L}$ is a standard measure of probabilistic model fit. Equation \ref{eqn:nll_theoretical} gives its definition.
+
+\begin{align}
   \label{eqn:nll_theoretical}
-  \mathcal{L}=-\sum_{i=1}^{n} \log \left(\hat{\pi}\left(y_{i} \mid \mathbf{x}_{i}\right)\right)
-\end{equation}
+  \mathcal{L} &= -\sum_{i=1}^{n} \log \left(\hat{\pi}\left(y_{i} \mid \mathbf{x}_{i}\right)\right) \\ \nonumber
+  \text{where}~\hat{\pi}(Y \mid X) &= \text{The probabilistic model under evaluation,} \\ \nonumber
+  n &= \text{The number of samples}
+\end{align}
+Minimizing equation \ref{eqn:nll_theoretical} brings $\hat{\pi}(Y \mid X)$ ever closer to the true probability distribution. If negative log-likelihood is 0, $\hat{\pi}(Y \mid X)$ is the ground truth probability distribution. We do not use negative log-likelihood in practice to calibrate deep learning models because in this context \cite{guo2017calibration} show that it is too susceptible to overfitting.
 
 \section{Review of applications of interest}
 In this work we want to evaluate and analyze the impact of calibration on representative DeepProbLog use-cases where it presents a considerable issue. Unfortunately, these use-cases are not a given. To find and choose some, we first required that:
