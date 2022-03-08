@@ -83,17 +83,17 @@ Minimizing equation \ref{eqn:nll_theoretical} brings $\hat{\pi}(Y \mid X)$ ever 
 \cite{guo2017calibration} provide and compare several calibration methods we will discuss here.
 
 \subsubsection{Histogram binning}
-Histogram binning is a non-parametric calibration method where all uncalibrated prediction confidences $\hat{p}_{i}$ of the dataset are divided into bins $B_{1}, \ldots, B_{M}$. Each bin is assigned a calibrated prediction confidence $\theta_{m}$ such that if $\hat{p}_{i}$ is assigned to bin $B_{m}$, then $\hat{q}_{i}=\theta_{m}$ where $\hat{q}_{i}$ stands for sample $i$'s prediction confidence. The $\theta_{i}$'s are chosen to minimize the bin-wise squared loss as defined by equation \ref{eqn:histogram_binning}.
-
+Histogram binning is a non-parametric calibration method where all uncalibrated prediction confidences $\hat{p}_{i}$ of the dataset are divided into bins $B_{1}, \ldots, B_{M}$. Each bin is assigned a calibrated prediction confidence $\theta_{m}$ such that if $\hat{p}_{i}$ is assigned to bin $B_{m}$, then $\hat{q}_{i}=\theta_{m}$ where $\hat{q}_{i}$ stands for sample $i$'s calibrated prediction confidence. The $\theta_{i}$'s are chosen to minimize the bin-wise squared loss as defined by equation \ref{eqn:histogram_binning} in the case of binary classification.
 \begin{align}
   \label{eqn:histogram_binning}
-  \min _{\theta_{1}, \ldots, \theta_{M}} \sum_{m=1}^{M} \sum_{i=1}^{n} \mathbf{1}\left(a_{m} \leq \hat{p}_{i}<a_{m+1}\right)\left(\theta_{m}-y_{i}\right)^{2}
-  \text{where}~1 &= The indicator function, \\ \nonumber
-  0=a_{1} \leq a_{2} \leq \ldots \leq a_{M+1}=1y &= \text{The boundaries of bin $B_{m}$ defined by the interval $\left(a_{m}, a_{m+1}\right]$} \\ \nonumber
+  \min_{\theta_{1}, \ldots, \theta_{M}} &\sum_{m=1}^{M} \sum_{i=1}^{n} \mathbf{1}\left(a_{m} \leq \hat{p}_{i}<a_{m+1}\right)\left(\theta_{m}-y_{i}\right)^{2} \\ \nonumber
+  \text{where}~n &= \text{The number of samples}, \\ \nonumber
+  1 &= \text{The indicator function}, \\ \nonumber
+  0=a_{1} \leq a_{2} \leq \ldots \leq a_{M+1}=1 &= \parbox[t]{5cm}{The boundaries of bin $B_{m}$ defined by the interval $\left(a_{m}, a_{m+1}\right]$}, \\ \nonumber
+  y_{i} &= \parbox[t]{5cm}{Sample $i$'s true class, either positive (1) or negative (0)}
 \end{align}
-
-Typically the bin boundaries are either chosen to be equal length intervals or to equalize the number of samples in each bin. 
-Given fixed bins boundaries, the solution to equation \ref{eqn:histogram_binning} results in $\theta_{m}$ that correspond to the average number of positive-class samples in bin $B_{m}$.
+Typically the bins are either made equally long or sized to equalize the number of samples they contain.
+Given fixed bin boundaries, the solution to equation \ref{eqn:histogram_binning} is to let $\theta_{m}$ be equal to the average number of positive-class samples in bin $B_{m}$.
 
 \subsubsection{Isotonic regression}
 \subsubsection{Bayesian binning into quantiles (BBQ)}
