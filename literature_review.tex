@@ -83,19 +83,42 @@ Minimizing equation \ref{eqn:nll_theoretical} brings $\hat{\pi}(Y \mid X)$ ever 
 \cite{guo2017calibration} provide and compare several calibration methods we will discuss here.
 
 \subsubsection{Histogram binning}
-Histogram binning is a non-parametric calibration method where all uncalibrated prediction confidences $\hat{p}_{i}$ of the dataset are divided into bins $B_{1}, \ldots, B_{M}$. Each bin is assigned a calibrated prediction confidence $\theta_{m}$ such that if $\hat{p}_{i}$ is assigned to bin $B_{m}$, then $\hat{q}_{i}=\theta_{m}$ where $\hat{q}_{i}$ stands for sample $i$'s calibrated prediction confidence. The $\theta_{i}$'s are chosen to minimize the bin-wise squared loss as defined by equation \ref{eqn:histogram_binning} in the case of binary classification.
+Histogram binning is a non-parametric calibration method where all uncalibrated prediction confidences $\hat{p}_{i}$ of the dataset are divided into bins $B_{1}, \ldots, B_{M}$. Each bin is assigned a calibrated prediction confidence $\theta_{m}$ such that if $\hat{p}_{i}$ is assigned to bin $B_{m}$, then $\hat{q}_{i}=\theta_{m}$ where $\hat{q}_{i}$ stands for sample $i$'s calibrated prediction confidence. The $\theta_{m}$'s are chosen to minimize the bin-wise squared loss as defined by equation \ref{eqn:histogram_binning} in the case of binary classification.
 \begin{align}
   \label{eqn:histogram_binning}
   \min_{\theta_{1}, \ldots, \theta_{M}} &\sum_{m=1}^{M} \sum_{i=1}^{n} \mathbf{1}\left(a_{m} \leq \hat{p}_{i}<a_{m+1}\right)\left(\theta_{m}-y_{i}\right)^{2} \\ \nonumber
-  \text{where}~n &= \text{The number of samples}, \\ \nonumber
+  \text{where}~\hat{p}_{i} &= \text{The uncalibrated probability of sample $i$ being positive (1)}
+  M &= \text{The number of bins}, \\ \nonumber
+  n &= \text{The number of samples}, \\ \nonumber
   1 &= \text{The indicator function}, \\ \nonumber
-  0=a_{1} \leq a_{2} \leq \ldots \leq a_{M+1}=1 &= \parbox[t]{5cm}{The boundaries of bin $B_{m}$ defined by the interval $\left(a_{m}, a_{m+1}\right]$}, \\ \nonumber
+  0=a_{1} \leq a_{2} \leq \ldots \leq a_{M+1}=1 &= \parbox[t]{5cm}{The boundaries of bin $B_{m}$ defined by the interval $\left(a_{m}, a_{m+1}\right]$,} \\ \nonumber
+  \theta_{m} &= \parbox[t]{5cm}{The calibrated prediction confidence associated with bin $m$,} \\ \nonumber
   y_{i} &= \parbox[t]{5cm}{Sample $i$'s true class, either positive (1) or negative (0)}
 \end{align}
 Typically the bins are either made equally long or sized to equalize the number of samples they contain.
 Given fixed bin boundaries, the solution to equation \ref{eqn:histogram_binning} is to let $\theta_{m}$ be equal to the average number of positive-class samples in bin $B_{m}$.
 
 \subsubsection{Isotonic regression}
+Isotonic regression is a generalization of histogram binning where not only the calibrated prediction confidences of each bin but also the bin boundaries are optimized, as defined by equation \ref{eqn:isotonic_regression} in the case of binary classification.
+\begin{align}
+  \label{eqn:isotonic_regression}
+  \min _{
+    \begin{array}{c}
+      M \\
+	  \genfrac{}{}{0pt}{}{\theta_{1}, \ldots, \theta_{M}}{a_{1}, \ldots, a_{M+1}}
+    \end{array}
+  } & \sum_{m = 1}^{M} \sum_{i = 1}^{n} 1\left(a_{m} \leq \hat{p}_{i} < a_{m + 1}\right)\left(\theta_{m} - y_{i}\right)^{2} \\ \nonumber
+  \text{ subject to } & 0 = a_{1} \leq a_{2} \leq \ldots \leq a_{M + 1}=1, \\
+  & \theta_{1} \leq \theta_{2} \leq \ldots \leq \theta_{M}. \\ \nonumber
+  \text{where}~\hat{p}_{i} &= \text{The uncalibrated probability of sample $i$ being positive (1)}
+  M &= \text{The number of bins}, \\ \nonumber
+  n &= \text{The number of samples}, \\ \nonumber
+  1 &= \text{The indicator function}, \\ \nonumber
+  0=a_{1} \leq a_{2} \leq \ldots \leq a_{M+1}=1 &= \parbox[t]{5cm}{The boundaries of bin $B_{m}$ defined by the interval $\left(a_{m}, a_{m+1}\right]$,} \\ \nonumber
+  \theta_{m} &= \parbox[t]{5cm}{The calibrated prediction confidence associated with bin $m$,} \\ \nonumber
+  y_{i} &= \parbox[t]{5cm}{Sample $i$'s true class, either positive (1) or negative (0)}
+\end{align}
+
 \subsubsection{Bayesian binning into quantiles (BBQ)}
 \subsubsection{Platt and temperature scaling}
 \subsubsection{Comparison}
