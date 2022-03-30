@@ -120,6 +120,22 @@ Isotonic regression is a generalization of histogram binning where not only the 
 \end{align}
 
 \subsubsection{Bayesian binning into quantiles (BBQ)}
+Bayesian binning into quantiles (BBQ) is a Bayesian maximum a posteriori (MAP) calibrated probability estimation method that can be seen as a variation on histogram binning. Its basis is marginalization over the space of all possible binning schemes $\mathcal{S}$. We define a binning scheme $s$ as a pair $(M, \mathcal{I})$ where $M$ is the number of bins, and $\mathcal{I}$ is a corresponding partitioning of $[0,1]$ into $M$ disjoint intervals with boundaries $0=a_{1} \leq a_{2} \leq \ldots \leq a_{M+1}=1$. A binning scheme has parameters $\theta_{1}, \ldots, \theta_{M}$ defining a generative model for data on it. Equation \ref{eqn:bbq_pq} shows how a probability distribution of the calibrated confidence $\hat{q}$ conditioned on the data ($D$) and the uncalibrated confidence $\hat{p}$ can be defined as a marginalization over the space of all possible binning schemes. Equation \ref{eqn:bbq_pq_in_terms_of_s} shows
+
+\begin{align}
+\label{eqn:bbq_pq}
+\mathbb{P}\left(\hat{q} \mid \hat{p}, D\right) &= \sum_{s \in \mathcal{S}} \mathbb{P}\left(\hat{q}, S=s \mid \hat{p}, D\right) \\
+\label{eqn:bbq_pq_in_terms_of_s}
+&= \sum_{s \in \mathcal{S}} \mathbb{P}\left(\hat{q} \mid \hat{p}, S=s, D\right) \mathbb{P}(S=s \mid D)
+\end{align}
+
+Using a uniform prior, the weight $\mathbb{P}(S=s \mid D)$ from equation \ref{eqn:bbq_pq_in_terms_of_s} can be derived using Bayes' rule:
+\begin{equation}
+\label{eqn:ps_given_d}
+\mathbb{P}(S=s \mid D)=\frac{\mathbb{P}(D \mid S=s)}{\sum_{s^{\prime} \in \mathcal{S}} \mathbb{P}\left(D \mid S=s^{\prime}\right)}.
+\end{equation}
+By viewing parameters $\theta_{1}, \ldots, \theta_{M}$ as parameters of $M$ independent binomial distributions and by placing Beta priors on them, we can obtain a closed form expression for the marginal likelihood $\mathbb{P}(D \mid S=s)$. This allows us to backtrack through equations \ref{eqn:ps_given_d}, \ref{eqn:bbq_pq_in_terms_of_s} and \ref{eqn:bbq_pq} to finally compute $\mathbb{P}\left(\hat{q} \mid \hat{p}, D\right)$ for any test input.
+
 \subsubsection{Platt and temperature scaling}
 \subsubsection{Comparison}
 
