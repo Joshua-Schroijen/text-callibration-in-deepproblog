@@ -136,6 +136,12 @@ Using a uniform prior, the weight $\mathbb{P}(S=s \mid D)$ from equation \ref{eq
 \end{equation}
 By viewing parameters $\theta_{1}, \ldots, \theta_{M}$ as parameters of $M$ independent binomial distributions and by placing Beta priors on them, we can obtain a closed form expression for the marginal likelihood $\mathbb{P}(D \mid S=s)$. This allows us to backtrack through equations \ref{eqn:ps_given_d}, \ref{eqn:bbq_pq_in_terms_of_s} and \ref{eqn:bbq_pq} to finally compute $\mathbb{P}\left(\hat{q} \mid \hat{p}, D\right)$ for any test input.
 
+Using equation \ref{eqn:bbq_pq} to \ref{eqn:ps_given_d}, we can use equation \ref{eqn:bbq_pq_argmax} to determine the calibrated confidence of the model given the data and its uncalibrated confidence. This is Bayesian binning into quantiles.
+\begin{equation}
+\label{eqn:bbq_pq_argmax}
+\hat{q} = \argmax_{\hat{q}} \mathbb{P}\left(\hat{q} \mid \hat{p}, D\right)
+\end{equation}
+
 \subsubsection{Platt and temperature scaling}
 \subsubsection{Comparison}
 
