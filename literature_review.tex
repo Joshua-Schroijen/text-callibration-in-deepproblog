@@ -147,7 +147,7 @@ In Platt scaling, a logistic regression model is used to transform a network's u
 
 \begin{align}
 \label{eqn:logistic_regression_platt_scaling}
-\hat{q}_{i} &= \sigma\left(a z_{i} + b\right) \\ \nonumber
+\hat{q}_{i} &= \sigma_{\mathrm{SM}}\left(a z_{i} + b\right) \\ \nonumber
 \text{where}~\hat{q}_{i} &= \parbox[t]{5cm}{The calibrated probabilities vector of sample $i$,} \\ \nonumber
 z_{i} &= \parbox[t]{5cm}{The uncalibrated output logits vector of sample $i$,}, \\ \nonumber
 a, b \in \mathbb{R} &= \parbox[t]{5cm}{The scalar coefficients of the logistic regression model}, \\ \nonumber
@@ -157,7 +157,7 @@ A validation set is used to determine equation \ref{eqn:logistic_regression_plat
 
 \begin{align}
 \label{eqn:logistic_regression_vector_scaling}
-\hat{q}_{i} &= \sigma\left(\mathbf{W} z_{i} + \mathbf{b}\right) \\ \nonumber
+\hat{q}_{i} &= \sigma_{\mathrm{SM}}\left(\mathbf{W} z_{i} + \mathbf{b}\right) \\ \nonumber
 \text{where}~\hat{q}_{i} &\in \mathbb{R}^{n} \\ \nonumber
 z_{i} &\in \mathbb{R}^{m} \\ \nonumber
 \mathbf{W} &\in \{\, \mathbf{X} \in \mathbb{R}^{nxm} \ssep \text{$\mathbf{X}$ is a diagonal matrix} \,\} \\ \nonumber
@@ -165,12 +165,18 @@ z_{i} &\in \mathbb{R}^{m} \\ \nonumber
 \end{align}
 \begin{align}
 \label{eqn:logistic_regression_matrix_scaling}
-\hat{q}_{i} &= \sigma\left(\mathbf{W} z_{i} + \mathbf{b}\right) \\ \nonumber
+\hat{q}_{i} &= \sigma_{\mathrm{SM}}\left(\mathbf{W} z_{i} + \mathbf{b}\right) \\ \nonumber
 \text{where}~\hat{q}_{i} &\in \mathbb{R}^{n} \\ \nonumber
 z_{i} &\in \mathbb{R}^{m} \\ \nonumber
 \mathbf{W} &\in \mathbb{R}^{nxm} \\ \nonumber
 \mathbf{b} &\in \mathbb{R}^{n}
 \end{align}
+
+The function $\sigma_{\mathrm{SM}}$ is the softmax function as defined by equation \ref{eqn:softmax}
+\begin{equation}
+\label{eqn:softmax}
+\sigma_{\mathrm{SM}}\left(\mathbf{z}_{i}\right)^{(k)}=\frac{\exp \left(z_{i}^{(k)}\right)}{\sum_{j=1}^{K} \exp \left(z_{i}^{(j)}\right)}, \quad \text{where } z_{i} \in \mathbb{R}^{K}
+\end{equation}
 
 \subsubsection{Comparison}
   
