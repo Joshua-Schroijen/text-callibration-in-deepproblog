@@ -178,6 +178,12 @@ The function $\sigma_{\mathrm{SM}}$ is the softmax function as defined by equati
 \sigma_{\mathrm{SM}}\left(\mathbf{z}_{i}\right)^{(k)}=\frac{\exp \left(z_{i}^{(k)}\right)}{\sum_{j=1}^{K} \exp \left(z_{i}^{(j)}\right)}, \quad \text{where } z_{i} \in \mathbb{R}^{K}
 \end{equation}
 
+Equation \ref{eqn:logistic_regression_platt_scaling} can not only be generalized but also specialized to equation \ref{eqn:logistic_regression_temperature_scaling} to yield a simpler calibration method known as temperature scaling with only a single scalar parameter $T>0$.
+\begin{equation}
+\label{eqn:logistic_regression_temperature_scaling}
+\hat{q}_{i}=\sigma_{\mathrm{SM}}\left(\mathbf{z}_{i} / T\right)
+\end{equation}
+
 \subsubsection{Comparison}
   
 \begin{table}
