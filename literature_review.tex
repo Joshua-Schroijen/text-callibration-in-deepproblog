@@ -143,6 +143,18 @@ Using equation \ref{eqn:bbq_pq} to \ref{eqn:ps_given_d}, we can use equation \re
 \end{equation}
 
 \subsubsection{Platt and temperature scaling}
+In Platt and temperature scaling, a logistic regression model is used to transform a network's uncalibrated output logits into calibrated probabilities. Equation \ref{eqn:logistic_regression_platt_scaling} lays out this model in the case of multiclass classification.
+
+\begin{align}
+\label{eqn:logistic_regression_platt_scaling}
+\hat{q}_{i} &= \sigma\left(a z_{i} + b\right) \\ \nonumber
+\text{where}~\hat{q}_{i} &= \parbox[t]{5cm}{The calibrated probabilities vector of sample $i$,} \\ \nonumber
+z_{i} &= \parbox[t]{5cm}{The uncalibrated output logits vector of sample $i$,}, \\ \nonumber
+a, b \in \mathbb{R} &= \parbox[t]{5cm}{The scalar coefficients of the logistic regression model}, \\ \nonumber
+\end{align}
+
+In Platt and temperature scaling, a validation set is used to determine equation \ref{eqn:logistic_regression_platt_scaling}'s parameters $a$ and $b$ by optimizing its NLL. Importantly, the network's parameters and structure are always kept constant during this process.
+
 \subsubsection{Comparison}
   
 \begin{table}
