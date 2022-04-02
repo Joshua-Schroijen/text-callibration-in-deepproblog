@@ -143,7 +143,7 @@ Using equation \ref{eqn:bbq_pq} to \ref{eqn:ps_given_d}, we can use equation \re
 \end{equation}
 
 \subsubsection{Platt and temperature scaling}
-In Platt and temperature scaling, a logistic regression model is used to transform a network's uncalibrated output logits into calibrated probabilities. Equation \ref{eqn:logistic_regression_platt_scaling} lays out this model in the case of multiclass classification.
+In Platt scaling, a logistic regression model is used to transform a network's uncalibrated output logits into calibrated probabilities. Equation \ref{eqn:logistic_regression_platt_scaling} lays out one possible model with only scalar parameters in the case of multiclass classification.
 
 \begin{align}
 \label{eqn:logistic_regression_platt_scaling}
@@ -153,7 +153,24 @@ z_{i} &= \parbox[t]{5cm}{The uncalibrated output logits vector of sample $i$,}, 
 a, b \in \mathbb{R} &= \parbox[t]{5cm}{The scalar coefficients of the logistic regression model}, \\ \nonumber
 \end{align}
 
-In Platt and temperature scaling, a validation set is used to determine equation \ref{eqn:logistic_regression_platt_scaling}'s parameters $a$ and $b$ by optimizing its NLL. Importantly, the network's parameters and structure are always kept constant during this process.
+A validation set is used to determine equation \ref{eqn:logistic_regression_platt_scaling}'s parameters $a$ and $b$ by optimizing its NLL. Importantly, the network's parameters and structure are always kept constant during this process. Equation \ref{eqn:logistic_regression_platt_scaling} can be generalized to \ref{eqn:logistic_regression_vector_scaling} and \ref{eqn:logistic_regression_matrix_scaling}, yielding calibration methods known as vector and matrix scaling respectively.
+
+\begin{align}
+\label{eqn:logistic_regression_vector_scaling}
+\hat{q}_{i} &= \sigma\left(\mathbf{W} z_{i} + \mathbf{b}\right) \\ \nonumber
+\text{where}~\hat{q}_{i} &\in \mathbb{R}^{n} \\ \nonumber
+z_{i} &\in \mathbb{R}^{m} \\ \nonumber
+\mathbf{W} &\in \{\, \mathbf{X} \in \mathbb{R}^{nxm} \ssep \text{$\mathbf{X}$ is a diagonal matrix} \,\} \\ \nonumber
+\mathbf{b} &\in \mathbb{R}^{n}
+\end{align}
+\begin{align}
+\label{eqn:logistic_regression_matrix_scaling}
+\hat{q}_{i} &= \sigma\left(\mathbf{W} z_{i} + \mathbf{b}\right) \\ \nonumber
+\text{where}~\hat{q}_{i} &\in \mathbb{R}^{n} \\ \nonumber
+z_{i} &\in \mathbb{R}^{m} \\ \nonumber
+\mathbf{W} &\in \mathbb{R}^{nxm} \\ \nonumber
+\mathbf{b} &\in \mathbb{R}^{n}
+\end{align}
 
 \subsubsection{Comparison}
   
