@@ -185,7 +185,7 @@ Equation \ref{eqn:logistic_regression_platt_scaling} can not only be generalized
 \end{equation}
 
 \subsubsection{Comparison}
-  
+\cite{guo2017calibration} applied the calibration methods discussed here on several networks trained on various image and document classification datasets and reported the resulting ECEs as a percentage of model confidence in table \ref{comparison_calibration_methods}.
 \begin{table}
   \centering
   \resizebox{\linewidth}{!}{
@@ -223,6 +223,43 @@ Equation \ref{eqn:logistic_regression_platt_scaling} can not only be generalized
   \source{\cite{guo2017calibration}}
 \end{table}
 
+We make the following observations from table \ref{comparison_calibration_methods}.
+\begin{itemize}
+  \item Most datasets are somewhat miscalibrated with ECEs between 1\% and 10\% of model confidence in over a two thirds majority of cases.
+  \item \cite{guo2017calibration} observe a quasi-constant ECE-to-error ratio per method over the datasets.
+  \item Temperature scaling surprisingly outperforms all other methods on vision tasks and performs comparably to others on NLP tasks.
+  \item Temperature scaling nearly always outperforms or performs at laast comparably to all other Platt scaling methods. On the Reuters dataset case, the one exception, the base network is already well-calibrated to begin with and vector scaling is the only technique that actually improves calibration with respect to it.
+  \item Matrix scaling performs notably poorly. This is because a large number of parameters easily leads to overfitting on the validation set.
+  \item Binning methods tend to underperform temperature scaling and hurt network accuracy by changing class predictions. Histogram binning outperforms isotonic regression and BBQ, which have more parameters as they are strictly more general.
+\end{itemize}
+
+The key takeaways from these observations are that
+\begin{enumerate}
+  \item calibration methods with fewer parameters tend to work better and
+  \item temperature scaling is an excellent default choice of calibration method
+\end{enumerate}
+
+The second point is further illustrated by table \ref{1v1_comparison_calibration_metrics}. If for every calibration method we compare its ECE on every dataset to every other calibration method on the same dataset using table \ref{comparison_calibration_methods} and we record the percentage of comparisons in which the calibration method outperforms its competitor, we get table \ref{1v1_comparison_calibration_metrics}. We clearly see that temperature scaling almost always wins in a 1-on-1 comparison, winning 86.61\% of the time.
+\begin{table}
+  \centering
+  \label{1v1_comparison_calibration_metrics}
+  \begin{tabular}{ |c|c| }
+    \hline
+	Method & 1-on-1 outperformance (\% of combinations) \\
+	\hline
+    Histogram binning & 60.71\% \\
+    Isotonic regression & 40.18\% \\
+    BBQ & 48.21\% \\
+    Temperature scaling & 86.61\% \\
+    Vector scaling & 74.11\% \\
+    Matrix scaling & 31.37\% \\
+    \hline
+  \end{tabular}
+  \caption{
+  1-on-1 outperformance of a calibration method over all other ones over all datasets in table \ref{comparison_calibration_methods} as a percentage (\%) of all possible combinations.
+  }
+\end{table}
+
 \section{Review of applications of interest}
 In this work we want to evaluate and analyze the impact of calibration on representative DeepProbLog use-cases where it presents a considerable issue. Unfortunately, these use-cases are not a given. To find and choose some, we first required that:
 \begin{itemize}
@@ -232,6 +269,7 @@ In this work we want to evaluate and analyze the impact of calibration on repres
 \end{itemize}
 If the first and third criterions are not met, there is no reason to use DeepProbLog and/or calibration and the knowledge we'd gain and features we'd create would not necessarily be relevant to our target audience. That's why we disregard most well-known AI toy problems such as playing chess, the N-queens problem and MNIST digit recognition and we start with reservations about using the DeepProbLog demonstration problems showcased by \cite{manhaeve2018deepproblog}. But we do require widely used challenges like the general AI toy problems so that our work's properties and performance can be easily compared to those of other approaches (\cite{russell2002artificial}), hence our second criterion. \par
 We then performed a shallow literature scan of neuro-symbolic integration to find recurring themes and toy problems in this field of research. The scientific literature search engines Google Scholar (by Google) and Limo (by KU Leuven) were used to search for papers containing the keywords "neuro", "symbolic" and "integration" simultaneously. 63 random papers were chosen from the results. A breakdown of the problem categories these papers work in is given in table \ref{subject_breakdown}. Papers can work in multiple categories, the count column shows how many work in the category and the \% column shows what percentage of the 63 work in it.
+
 \begin{table}[!htbp]
 \centering
 \begin{tabular}{ |c|c|c| }
