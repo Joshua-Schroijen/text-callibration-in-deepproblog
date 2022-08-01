@@ -1,0 +1,19 @@
+{
+      "loss_history": [
+            0.17854829150097348,
+            0.12462982558321346,
+            0.10164319831815055,
+            0.17601872946818617,
+            0.117785747130209,
+            0.15664642875295298,
+            0.10224028955165587,
+            0.10819329719412119
+      ],
+      "networks_evolution_collectors": {
+            "calibration_collector": {
+                  "before_calibration_ece_history": {},
+                  "after_calibration_ece_history": {}
+            }
+      },
+      "accuracy": 0.6
+}

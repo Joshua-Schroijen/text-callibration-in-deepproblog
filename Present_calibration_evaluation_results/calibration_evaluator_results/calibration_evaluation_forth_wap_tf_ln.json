@@ -1,0 +1,49 @@
+{
+      "loss_history": [
+            0.03983312990203558,
+            0.00010253547381458005,
+            2.62859588486819e-06,
+            2.6150257101242858e-05,
+            3.5762789174498266e-08,
+            5.012871075305013e-06,
+            9.95402036885196e-07,
+            8.344643545044051e-08,
+            4.7028747699684456e-06,
+            4.5299563904421803e-07,
+            2.515341915554359e-06,
+            1.2874651899252854e-06
+      ],
+      "networks_evolution_collectors": {
+            "calibration_collector": {
+                  "before_calibration_ece_history": {
+                        "nn_permute": [
+                              null
+                        ],
+                        "nn_op1": [
+                              null
+                        ],
+                        "nn_swap": [
+                              null
+                        ],
+                        "nn_op2": [
+                              null
+                        ]
+                  },
+                  "after_calibration_ece_history": {
+                        "nn_permute": [
+                              null
+                        ],
+                        "nn_op1": [
+                              null
+                        ],
+                        "nn_swap": [
+                              null
+                        ],
+                        "nn_op2": [
+                              null
+                        ]
+                  }
+            }
+      },
+      "accuracy": 0.2
+}
