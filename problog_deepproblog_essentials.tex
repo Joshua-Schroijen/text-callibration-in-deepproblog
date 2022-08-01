@@ -209,7 +209,7 @@ This neural predicate defines that a NN called \texttt{mnist\_net} with one inpu
 \end{lstlisting}
 
 \section{Managing and querying DeepProbLog KBs from Python}
-It is first and foremost important to understand that DeepProbLog KBs need to be processed using Python. Python acts as the bridge between the DeepProbLog probabilistic logic program and the NNs included in the DeepProbLog probabilistic logic progam's neural predicates. DeepProbLog itself only comes as a Python package because of this. At the time of writing, DeepProbLog was not published as a PyPI package yet. The DeepProbLog codebase with additions relevant to this paper can be found on this paper's \href{https://github.com/Joshua-Schroijen/deepproblog/tree/master/src/deepproblog/examples}{accompanying GitHub repository}. In the root of this repository a file named \texttt{EXTRA_USAGE_INSTRUCTIONS.md} can be found containing detailed installation instructions. In the folder \texttt{src/deepproblog/examples} several examples of Python scripts utilising DeepProbLog for various applications can be found. 
+It is first and foremost important to understand that DeepProbLog KBs need to be processed using Python. Python acts as the bridge between the DeepProbLog probabilistic logic program and the NNs included in the DeepProbLog probabilistic logic progam's neural predicates. DeepProbLog itself only comes as a Python package because of this. At the time of writing, DeepProbLog was not published as a PyPI package yet. The DeepProbLog codebase with additions relevant to this paper can be found on this paper's \href{https://github.com/Joshua-Schroijen/deepproblog/tree/master/src/deepproblog/examples}{accompanying GitHub repository}. In the root of this repository a file named \texttt{EXTRA\_USAGE\_INSTRUCTIONS.md} can be found containing detailed installation instructions. In the folder \texttt{src/deepproblog/examples} several examples of Python scripts utilising DeepProbLog for various applications can be found. 
 
 There are three essential components to a DeepProbLog application:
 \begin{enumerate}
@@ -225,12 +225,12 @@ These components are brought together by a driving Python script. The PyTorch li
   \item Create DeepProbLog network objects (type \texttt{deepproblog.network.Network}) based on the PyTorch NNs
   \item Construct a DeepProbLog model object (type \texttt{deepproblog.model.Model}) based on the KB file and the DeepProbLog Network objects
   \item Create an engine object and add it to the model. An approximate (class \texttt{deepproblog.engines.ApproximateEngine}) and exact (\texttt{deepproblog.engines.ExactEngine}) inference engine are provided in the standard DeepProbLog distribution. Both engines have cases in which they are or are not appropriate.
-  \item Couple tensor source objects to the model using its \texttt{add_tensor_source} method
-  \item Use the \texttt{deepproblog.train.train_model} function to train the DeepProbLog model (which means optimizing the unknown model probabilities/parameters and the model's NNs' weights for model accuracy on a test set of queries)
+  \item Couple tensor source objects to the model using its \texttt{add\_tensor\_source} method
+  \item Use the \texttt{deepproblog.train.train\_model} function to train the DeepProbLog model (which means optimizing the unknown model probabilities/parameters and the model's NNs' weights for model accuracy on a test set of queries)
 \end{enumerate}
 
 Let us illustrate the preceding concepts by looking at the single-digit MNIST addition example application which can be found in the file \texttt{src/deepproblog/examples/MNIST/addition.py}. The comments in the listing indicate which of the previous steps is being carried out.
-\begin{lstlisting}[language=Python, caption={src/deepproblog/examples/MNIST/basic_addition.py, the basic MNIST single-digit addition example}, numbers=left, label={lst:MNIST_addition_source_code}, captionpos=b]
+\begin{lstlisting}[language=Python, caption={src/deepproblog/examples/MNIST/basic\_addition.py, the basic MNIST single-digit addition example}, numbers=left, label={lst:MNIST_addition_source_code}, captionpos=b]
 import torch
 from deepproblog.dataset import DataLoader
 from deepproblog.engines import ApproximateEngine
@@ -252,7 +252,7 @@ if __name__ == "__main__":
     size = 1,
     arity = 2
   )
-  test_dataset = MNISTOperator(
+  test\_dataset = MNISTOperator(
     dataset_name = "test",
     function_name = "addition",
     operator = sum,
@@ -305,3 +305,4 @@ if __name__ == "__main__":
   
   accuracy = get_confusion_matrix(model, test_dataset, verbose = 0).accuracy()
   print(f"Done. The model acccuracy was {accuracy}.")
+\end{lstlisting}
