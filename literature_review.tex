@@ -14,6 +14,7 @@ In this section we will summarize \cite{guo2017calibration}'s findings and propo
 \newpage
 
 \subsection{Formal calibration definitions and metrics}
+\label{subsection_calibration_definition}
 \cite{guo2017calibration} provide a rigorous definition of and enumerate several metrics for the calibration of supervised multiclass classification.
 
 \subsubsection{Notation and the formal perfect calibration definition}
@@ -143,6 +144,7 @@ Using equation \ref{eqn:bbq_pq} to \ref{eqn:ps_given_d}, we can use equation \re
 \end{equation}
 
 \subsubsection{Platt and temperature scaling}
+\label{subsubsection_platt_temperature_scaling}
 In Platt scaling, a logistic regression model is used to transform a network's uncalibrated output logits into calibrated probabilities. Equation \ref{eqn:logistic_regression_platt_scaling} lays out one possible model with only scalar parameters in the case of multiclass classification.
 
 \begin{align}
@@ -261,6 +263,7 @@ The second point is further illustrated by table \ref{1v1_comparison_calibration
 \end{table}
 
 \section{Review of applications of interest}
+\label{literature_review_applications_of_interest}
 In this work we want to evaluate and analyze the impact of calibration on representative DeepProbLog use-cases where it presents a considerable issue. Unfortunately, these use-cases are not a given. To find and choose some, we first required that:
 \begin{itemize}
   \item using PLP with neural predicates to tackle it is appropriate
@@ -302,3 +305,5 @@ We then performed a shallow literature scan of neuro-symbolic integration to fin
 \caption{Subfield breakdown of neuro-symbolic integration research}
 \label{subject_breakdown}
 \end{table}
+
+\# TODO

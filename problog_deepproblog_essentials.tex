@@ -154,40 +154,7 @@ if __name__ == "__main__":
 DeepProbLog extends ProbLog with neural predicates, which map inputs to outputs based on an underlying neural network (NN). Neural predicates can be seen as a syntax to generate facts at inference time that connect inputs to outputs using a NN. In fact, no changes in the probabilistic host language are inherently needed: in principle DeepProbLog could be implemented on top of any of them.
 NN classifiers often output real numbers called logits for each class. Usually, the higher some class's logit is in comparison to the others, the more certain it is that the input sample belongs to this class. Thus, if the NN's outputs are then normalized they can be interpreted as a probability distribution over the classes. DeepProbLog's neural predicates can leverage this to generate probabilistic facts using the NN too. These predicates can accordingly map inputs to output probability distributions. This is, in fact, the most important use of neural predicates in practice.
 
-TODO: high level query training
-
-
-
-
-DeepProbLog exemplified:
-MNIST addition
-Task: Classify pairs of MNIST digits with their sum
-Benefit of DeepProbLog:
-- Encode addition in logic
-- Separate addition from digit classification
-%nn(mnist_net, [X], Y, [0 ... 9] ) :: digit(X, Y).
-%addition(X, Y, Z) :- digit(X, N1), digit(Y, N2), Z is N1 + N2.
-
-Examples
-%addition(img1, img2, 8), addition(img3, img4, 4), addition(img5, img6, 11), ...
-
-MNIST addition
-- Pairs of MNIST images, labeled with sum
-- Baseline: CNN
- - Classifies concatenation of both images into classes 0 ... 18
-- DeepProbLog
- - CNN that classifies images into 0 ... 9
- - Two lines of DeepProbLog code
-- Result
- - Fewer iterations necessary
- - Higher accuracy achieved
-
-Example
-Learn to classify the sum of pairs of MNIST digits.
-Individual digits are not labeled!
-E.g. (img1, img2, 8)
-Could be done by a CNN: classify the concatenation of both images into 19 classes
-
+One of the most important aspects of DeepProbLog to understand is how the NNs that make up a DeepProbLog model are trained. In traditional NN training, a dataset is a mapping of a preferably large number of example inputs and the corresponding desired NN outputs, called targets. In the DeepProbLog context, no datasets for individual NNs are needed at all. A dataset of ground queries that must hold is given. Individual NN weights are adjusted during training such that the model as a whole reproduces the given query truths as well as possible.
 
 \section{Syntax of DeepProbLog KBs}
 In DeepProbLog, the special functor \texttt{nn} is used to declare a neural predicate. The \texttt{nn} functor has an arity of four, with three arguments being optional:
@@ -209,6 +176,7 @@ This neural predicate defines that a NN called \texttt{mnist\_net} with one inpu
 \end{lstlisting}
 
 \section{Managing and querying DeepProbLog KBs from Python}
+\label{managing_querying_DeepProbLog_from_python}
 It is first and foremost important to understand that DeepProbLog KBs need to be processed using Python. Python acts as the bridge between the DeepProbLog probabilistic logic program and the NNs included in the DeepProbLog probabilistic logic progam's neural predicates. DeepProbLog itself only comes as a Python package because of this. At the time of writing, DeepProbLog was not published as a PyPI package yet. The DeepProbLog codebase with additions relevant to this paper can be found on this paper's \href{https://github.com/Joshua-Schroijen/deepproblog/tree/master/src/deepproblog/examples}{accompanying GitHub repository}. In the root of this repository a file named \texttt{EXTRA\_USAGE\_INSTRUCTIONS.md} can be found containing detailed installation instructions. In the folder \texttt{src/deepproblog/examples} several examples of Python scripts utilising DeepProbLog for various applications can be found. 
 
 There are three essential components to a DeepProbLog application:
