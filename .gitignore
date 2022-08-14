@@ -1,3 +1,10 @@
+.vscode
+Present_calibration_evaluation_results/__pycache__
+Present_calibration_evaluation_results/accuracies_table.tex
+Present_calibration_evaluation_results/accuracies.png
+Present_calibration_evaluation_results/ECE_difference_table.tex
+Present_calibration_evaluation_results/ECE_differences.png
+Present_calibration_evaluation_results/loss_ECE_evolution_table.tex
+Present_calibration_evaluation_results/loss_ECE_evolution.png
 *.synctex.gz
 *.log
-Present_calibration_evaluation_results/__pycache__
