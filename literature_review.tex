@@ -44,7 +44,7 @@ $\operatorname{acc}\left(B_{m}\right)$ is an unbiased and consistent estimator o
 To make the criterion of perfect calibration, which is a goal that can rarely be reached in practice, useful we need to combine it with a quantitative measure of how close a model is to meeting it. Such a measure then allows us to bring a model ever closer to being perfectly calibrated instead of only to determine whether or not it is so. Three main metrics are layed out by \cite{guo2017calibration} and discussed here. We will call these metrics miscalibration metrics.
 
 \paragraph{Expected Calibration Error (ECE)}
-The expected calibration error (ECE), defined by equation \ref{eqn:ece_theoretical}, quantifies miscalibration as the expected absolute difference between the true accuracy of the model given its probabilistic confidence and its probabilistic confidence.
+The expected calibration error (ECE), defined by equation \ref{eqn:ece_theoretical}, quantifies miscalibration as the expected absolute difference between the true accuracy of the model given its probabilistic confidence and its probabilistic confidence. It is a number between 0 (in the best case) and 1 (in the worst case).
 \begin{equation}
   \label{eqn:ece_theoretical}
   \mathrm{ECE}=\underset{\hat{P}}{\mathbb{E}}[|\mathbb{P}(\hat{Y}=Y \mid \hat{P}=p)-p|]
@@ -57,7 +57,7 @@ Equation \ref{eqn:ece_theoretical} cannot be evaluated in practice because $\hat
 The expected calibration error metric is appropriate for use in model calibration optimization if calibration outliers are acceptable. ECE is ideally 0.
 
 \paragraph{Maximum Calibration Error (MCE)}
-The maximum calibration error (MCE), defined by equation \ref{eqn:mce_theoretical}, quantifies miscalibration as the maximum absolute difference between the true accuracy of the model given its probabilistic confidence and its probabilistic confidence.
+The maximum calibration error (MCE), defined by equation \ref{eqn:mce_theoretical}, quantifies miscalibration as the maximum absolute difference between the true accuracy of the model given its probabilistic confidence and its probabilistic confidence. It is a number between 0 (in the best case) and 1 (in the worst case).
 \begin{equation}
   \label{eqn:mce_theoretical}
   \mathrm{MCE}=\max _{p \in[0,1]}|\mathbb{P}(\hat{Y}=Y \mid \hat{P}=p)-p| \text {. }
