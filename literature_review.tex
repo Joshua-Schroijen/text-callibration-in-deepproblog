@@ -2,7 +2,7 @@
 In this section we will summarize \cite{guo2017calibration}'s findings and propositions on the topic of neural network calibration.
 
 \subsection{The general problem of neural network model calibration degradation}
-\cite{guo2017calibration} discovered that they could not confirm \cite{niculescu2005predicting}'s observation that neural networks (for binary classification) were typically well-calibrated for the latest generation of deep neural network models. \cite{lecun1998gradient}'s 5-layer LeNet was compared to \cite{he2016deep}'s 110 layer ResNet on the CIFAR-100 dataset. This comparison is visualized in figure \ref{fig:lenet_vs_resnet_calibration_guo_et_al}, where the top row shows prediction confidence histograms and the bottom row shows reliability diagrams (RDs). RDs show a model's accuracy as a function of its confidence. A perfectly callibrated model has a 45° angled line, i.e. the identity function, as its RD. Figure \ref{fig:lenet_vs_resnet_calibration_guo_et_al} shows a striking overconfidence of the ResNet on CIFAR-100 while showing the LeNet has an almost perfect RD on it. \cite{guo2017calibration} thus proposes that the modern ResNet has gained in accuracy over the older LeNet by, through some mechanism, sacrificing calibration. Through abductive reasoning \cite{guo2017calibration} hypothesizes and substantiates that this is a general and explainable evolutionary trend in artificial neural network R\&D that one could call calibration degradation. 
+\cite{guo2017calibration} discovered that they could not confirm \\ \cite{niculescu2005predicting}'s observation that neural networks (for binary classification) were typically well-calibrated for the latest generation of deep neural network models. \\ \cite{lecun1998gradient}'s 5-layer LeNet was compared to \cite{he2016deep}'s 110 layer ResNet on the CIFAR-100 dataset. This comparison is visualized in figure \ref{fig:lenet_vs_resnet_calibration_guo_et_al}, where the top row shows prediction confidence histograms and the bottom row shows reliability diagrams (RDs). RDs show a model's accuracy as a function of its confidence. A perfectly callibrated model has a 45° angled line, i.e. the identity function, as its RD. Figure \ref{fig:lenet_vs_resnet_calibration_guo_et_al} shows a striking overconfidence of the ResNet on CIFAR-100 while showing the LeNet has an almost perfect RD on it. \cite{guo2017calibration} thus proposes that the modern ResNet has gained in accuracy over the older LeNet by, through some mechanism, sacrificing calibration. Through abductive reasoning \cite{guo2017calibration} hypothesizes and substantiates that this is a general and explainable evolutionary trend in artificial neural network R\&D that one could call calibration degradation. 
 
 \begin{figure}[htbp!]
   \centering
@@ -78,7 +78,7 @@ Negative log-likelihood (also commonly known as cross-entropy loss in deep learn
   \text{where}~\hat{\pi}(Y \mid X) &= \text{The probabilistic model under evaluation,} \\ \nonumber
   n &= \text{The number of samples}
 \end{align}
-Minimizing equation \ref{eqn:nll_theoretical} brings $\hat{\pi}(Y \mid X)$ ever closer to the true probability distribution. If negative log-likelihood is 0, $\hat{\pi}(Y \mid X)$ is the ground truth probability distribution. We do not use negative log-likelihood in practice to calibrate deep learning models because in this context \cite{guo2017calibration} show that it is too susceptible to overfitting.
+Minimizing equation \ref{eqn:nll_theoretical} brings $\hat{\pi}(Y \mid X)$ ever closer to the true probability distribution. If negative log-likelihood is minimal, $\hat{\pi}(Y \mid X)$ is the ground truth probability distribution. We do not use negative log-likelihood in practice to calibrate deep learning models because in this context \cite{guo2017calibration} show that it is too susceptible to overfitting.
 
 \subsection{Calibration methods}
 \cite{guo2017calibration} provide and compare several calibration methods we will discuss here.
@@ -88,7 +88,7 @@ Histogram binning is a non-parametric calibration method where all uncalibrated 
 \begin{align}
   \label{eqn:histogram_binning}
   \min_{\theta_{1}, \ldots, \theta_{M}} &\sum_{m=1}^{M} \sum_{i=1}^{n} \mathbf{1}\left(a_{m} \leq \hat{p}_{i}<a_{m+1}\right)\left(\theta_{m}-y_{i}\right)^{2} \\ \nonumber
-  \text{where}~\hat{p}_{i} &= \text{The uncalibrated probability of sample $i$ being positive (1)}
+  \text{where}~\hat{p}_{i} &= \parbox[t]{5cm}{The uncalibrated probability of sample $i$ being positive (1),} \\ \nonumber
   M &= \text{The number of bins}, \\ \nonumber
   n &= \text{The number of samples}, \\ \nonumber
   1 &= \text{The indicator function}, \\ \nonumber
@@ -109,9 +109,9 @@ Isotonic regression is a generalization of histogram binning where not only the 
 	  \genfrac{}{}{0pt}{}{\theta_{1}, \ldots, \theta_{M}}{a_{1}, \ldots, a_{M+1}}
     \end{array}
   } & \sum_{m = 1}^{M} \sum_{i = 1}^{n} 1\left(a_{m} \leq \hat{p}_{i} < a_{m + 1}\right)\left(\theta_{m} - y_{i}\right)^{2} \\ \nonumber
-  \text{ subject to } & 0 = a_{1} \leq a_{2} \leq \ldots \leq a_{M + 1}=1, \\
+  \text{ subject to } & 0 = a_{1} \leq a_{2} \leq \ldots \leq a_{M + 1}=1, \\ \nonumber
   & \theta_{1} \leq \theta_{2} \leq \ldots \leq \theta_{M}. \\ \nonumber
-  \text{where}~\hat{p}_{i} &= \text{The uncalibrated probability of sample $i$ being positive (1)}
+  \text{where}~\hat{p}_{i} &= \parbox[t]{5cm}{The uncalibrated probability of sample $i$ being positive (1),} \\ \nonumber
   M &= \text{The number of bins}, \\ \nonumber
   n &= \text{The number of samples}, \\ \nonumber
   1 &= \text{The indicator function}, \\ \nonumber
@@ -121,8 +121,7 @@ Isotonic regression is a generalization of histogram binning where not only the 
 \end{align}
 
 \subsubsection{Bayesian binning into quantiles (BBQ)}
-Bayesian binning into quantiles (BBQ) is a Bayesian maximum a posteriori (MAP) calibrated probability estimation method that can be seen as a variation on histogram binning. Its basis is marginalization over the space of all possible binning schemes $\mathcal{S}$. We define a binning scheme $s$ as a pair $(M, \mathcal{I})$ where $M$ is the number of bins, and $\mathcal{I}$ is a corresponding partitioning of $[0,1]$ into $M$ disjoint intervals with boundaries $0=a_{1} \leq a_{2} \leq \ldots \leq a_{M+1}=1$. A binning scheme has parameters $\theta_{1}, \ldots, \theta_{M}$ defining a generative model for data on it. Equation \ref{eqn:bbq_pq} shows how a probability distribution of the calibrated confidence $\hat{q}$ conditioned on the data ($D$) and the uncalibrated confidence $\hat{p}$ can be defined as a marginalization over the space of all possible binning schemes. Equation \ref{eqn:bbq_pq_in_terms_of_s} shows
-
+Bayesian binning into quantiles (BBQ) is a Bayesian maximum a posteriori (MAP) calibrated probability estimation method that can be seen as a variation on histogram binning. Its basis is marginalization over the space of all possible binning schemes $\mathcal{S}$. We define a binning scheme $s$ as a pair $(M, \mathcal{I})$ where $M$ is the number of bins, and $\mathcal{I}$ is a corresponding partitioning of $[0,1]$ into $M$ disjoint intervals with boundaries $0=a_{1} \leq a_{2} \leq \ldots \leq a_{M+1}=1$. A binning scheme has parameters $\theta_{1}, \ldots, \theta_{M}$ defining a generative model for data on it. Equation \ref{eqn:bbq_pq} shows how a probability distribution of the calibrated confidence $\hat{q}$ conditioned on the data ($D$) and the uncalibrated confidence $\hat{p}$ can be defined as a marginalization over the space of all possible binning schemes.
 \begin{align}
 \label{eqn:bbq_pq}
 \mathbb{P}\left(\hat{q} \mid \hat{p}, D\right) &= \sum_{s \in \mathcal{S}} \mathbb{P}\left(\hat{q}, S=s \mid \hat{p}, D\right) \\
@@ -135,7 +134,7 @@ Using a uniform prior, the weight $\mathbb{P}(S=s \mid D)$ from equation \ref{eq
 \label{eqn:ps_given_d}
 \mathbb{P}(S=s \mid D)=\frac{\mathbb{P}(D \mid S=s)}{\sum_{s^{\prime} \in \mathcal{S}} \mathbb{P}\left(D \mid S=s^{\prime}\right)}.
 \end{equation}
-By viewing parameters $\theta_{1}, \ldots, \theta_{M}$ as parameters of $M$ independent binomial distributions and by placing Beta priors on them, we can obtain a closed form expression for the marginal likelihood $\mathbb{P}(D \mid S=s)$. This allows us to backtrack through equations \ref{eqn:ps_given_d}, \ref{eqn:bbq_pq_in_terms_of_s} and \ref{eqn:bbq_pq} to finally compute $\mathbb{P}\left(\hat{q} \mid \hat{p}, D\right)$ for any test input.
+By viewing parameters $\theta_{1}, \ldots, \theta_{M}$ as parameters of $M$ independent binomial distributions and by placing Beta priors on them, we can obtain a closed form expression for the likelihood $\mathbb{P}(D \mid S=s)$. This allows us to backtrack through equations \ref{eqn:ps_given_d}, \ref{eqn:bbq_pq_in_terms_of_s} and \ref{eqn:bbq_pq} to finally compute $\mathbb{P}\left(\hat{q} \mid \hat{p}, D\right)$ for any test input.
 
 Using equation \ref{eqn:bbq_pq} to \ref{eqn:ps_given_d}, we can use equation \ref{eqn:bbq_pq_argmax} to determine the calibrated confidence of the model given the data and its uncalibrated confidence. This is Bayesian binning into quantiles.
 \begin{equation}
@@ -305,5 +304,4 @@ We then performed a shallow literature scan of neuro-symbolic integration to fin
 \caption{Subfield breakdown of neuro-symbolic integration research}
 \label{subject_breakdown}
 \end{table}
-
-\# TODO
+Table \ref{subject_breakdown} shows that symbolic knowledge \& structured data processing, visual information processing and natural language processing together represent the main application domain of neuro-symbolic AI with a big lead. They are the top three where application domains display an almost power law like pattern of importance. This striking and clear data removes our reservations about and supports the representativity of the example applications given by \cite{manhaeve2018deepproblog}.

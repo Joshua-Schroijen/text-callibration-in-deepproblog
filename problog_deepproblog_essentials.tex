@@ -4,7 +4,7 @@ In this appendix, we will give a bird's-eye view of ProbLog and its extension De
 This content on ProbLog was borrowed and paraphrased from the 2022 lecture by Dr. Luc De Raedt on it within the KU Leuven course of Uncertainty in Artificial Intelligence organized by Dr. Tinne De Laet.
 
 \section{ProbLog concepts}
-ProbLog can be seen as a Prolog extension allowing facts and clauses to be true or qualified stochastically by either a known or to be inferred probability. In other words, ProbLog is an extension of Prolog's semantics such that ProbLog programs can represent Bayesian belief network models as well as the traditional boolean network models that can be represented by Prolog. ProbLog allows answering not only logical but also probabilistic queries. It's thus an intriguing base for the field of StarAI, or \textbf{Sta}tistical \textbf{R}elational \textbf{A}rtificial \textbf{I}ntelligence, similar to how neural networks are an interesting base for the fields of computer vision and natural language processing. We can refer to ProbLog KBs as probabilistic language programs and to the clauses in them as probabilistic clausal laws.
+ProbLog can be seen as a Prolog extension allowing facts and clauses to be true or qualified stochastically by either a known or to be inferred probability. In other words, ProbLog is an extension of Prolog's semantics such that ProbLog programs can represent Bayesian belief network models as well as the traditional boolean network models that can be represented by Prolog. ProbLog allows answering not only logical but also probabilistic queries. It's thus an intriguing base for the field of StarAI, or \textbf{Sta}tistical \textbf{R}elational \textbf{A}rtificial \textbf{I}ntelligence, similar to how neural networks are an interesting base for the fields of computer vision and natural language processing. We can refer to ProbLog KBs as probabilistic logic programs and to the clauses in them as probabilistic clausal laws.
 Prolog inference on the one hand is based on the renowned unification algorithm \cite{how_prolog_works}. ProbLog inference on the other hand is based on weighted model counting/weighted \#SAT solving. The following steps are carried out by ProbLog to answer a query:
 \begin{enumerate}
   \item Grounding the KB with respect to the variable values given in the query
@@ -177,7 +177,7 @@ This neural predicate defines that a NN called \texttt{mnist\_net} with one inpu
 
 \section{Managing and querying DeepProbLog KBs from Python}
 \label{managing_querying_DeepProbLog_from_python}
-It is first and foremost important to understand that DeepProbLog KBs need to be processed using Python. Python acts as the bridge between the DeepProbLog probabilistic logic program and the NNs included in the DeepProbLog probabilistic logic progam's neural predicates. DeepProbLog itself only comes as a Python package because of this. At the time of writing, DeepProbLog was not published as a PyPI package yet. The DeepProbLog codebase with additions relevant to this paper can be found on this paper's \href{https://github.com/Joshua-Schroijen/deepproblog/tree/master/src/deepproblog/examples}{accompanying GitHub repository}. In the root of this repository a file named \texttt{EXTRA\_USAGE\_INSTRUCTIONS.md} can be found containing detailed installation instructions. In the folder \texttt{src/deepproblog/examples} several examples of Python scripts utilising DeepProbLog for various applications can be found. 
+It is first and foremost important to understand that DeepProbLog KBs need to be processed using Python. Python acts as the bridge between the DeepProbLog probabilistic logic program and the NNs included in the DeepProbLog probabilistic logic progam's neural predicates. DeepProbLog itself only comes as a Python package because of this. At the time of writing, DeepProbLog was not published as a PyPI package yet. The DeepProbLog codebase with additions relevant to this paper can be found in this paper's \href{https://github.com/Joshua-Schroijen/deepproblog/tree/master/src/deepproblog/examples}{accompanying GitHub repository}. In the root of this repository a file named \texttt{EXTRA\_USAGE\_INSTRUCTIONS.md} can be found containing detailed installation instructions. In the folder \texttt{src/deepproblog/examples} several examples of Python scripts utilising DeepProbLog for various applications can be found. 
 
 There are three essential components to a DeepProbLog application:
 \begin{enumerate}
@@ -188,16 +188,16 @@ There are three essential components to a DeepProbLog application:
 These components are brought together by a driving Python script. The PyTorch library is used to provide NNs. These scripts will always follow roughly the following flow:
 \begin{enumerate}
   \item Load and create dataset objects (of (sub)type \texttt{deepproblog.dataset.Dataset}).
-  \item Create data loader objects based on the dataset objects (of (sub)type \texttt{deepproblog.dataset.DataLoader})
+  \item Create data loader objects based on the dataset objects (of (sub)type \\\texttt{deepproblog.dataset.DataLoader})
   \item Create PyTorch NN objects
   \item Create DeepProbLog network objects (type \texttt{deepproblog.network.Network}) based on the PyTorch NNs
   \item Construct a DeepProbLog model object (type \texttt{deepproblog.model.Model}) based on the KB file and the DeepProbLog Network objects
-  \item Create an engine object and add it to the model. An approximate (class \texttt{deepproblog.engines.ApproximateEngine}) and exact (\texttt{deepproblog.engines.ExactEngine}) inference engine are provided in the standard DeepProbLog distribution. Both engines have cases in which they are or are not appropriate.
+  \item Create an engine object and add it to the model. An approximate (class \texttt{deepproblog.engines.ApproximateEngine}) and exact (class \\\texttt{deepproblog.engines.ExactEngine}) inference engine are provided in the standard DeepProbLog distribution. Both engines have cases in which they are or are not appropriate.
   \item Couple tensor source objects to the model using its \texttt{add\_tensor\_source} method
-  \item Use the \texttt{deepproblog.train.train\_model} function to train the DeepProbLog model (which means optimizing the unknown model probabilities/parameters and the model's NNs' weights for model accuracy on a test set of queries)
+  \item Use the \texttt{deepproblog.train.train\_model} function to train the DeepProbLog model (which means optimizing the unknown model probabilities/parameters and the model's NNs' weights for model cross-entropy loss)
 \end{enumerate}
 
-Let us illustrate the preceding concepts by looking at the single-digit MNIST addition example application which can be found in the file \texttt{src/deepproblog/examples/MNIST/addition.py}. The comments in the listing indicate which of the previous steps is being carried out.
+Let us illustrate the preceding concepts by looking at the single-digit MNIST addition example application which can be found in the file \\\texttt{src/deepproblog/examples/MNIST/addition.py}. The comments in the listing indicate which of the previous steps is being carried out.
 \begin{lstlisting}[language=Python, caption={src/deepproblog/examples/MNIST/basic\_addition.py, the basic MNIST single-digit addition example}, numbers=left, label={lst:MNIST_addition_source_code}, captionpos=b]
 import torch
 from deepproblog.dataset import DataLoader

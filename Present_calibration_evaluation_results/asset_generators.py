@@ -281,17 +281,12 @@ def generate_loss_ECE_evolution_table():
           loss_ECE_evolution["Example"].append(example_name)
           loss_ECE_evolution["Experiment"].append(get_experiment_name(calibrated, calibrated_after_each_train_iteration, label_noise_added))
           loss_ECE_evolution["Iteration"].append(iteration)
-          loss_ = math.log(max(loss, sys.float_info.epsilon))
-          average_ece_ = math.log(max(average_ece, sys.float_info.epsilon))
-          #if example_name == "Forth/Sort":
-          #  print(f"PURE LOSS: {loss}, LOSS: {loss_}, AVERAGE_ECE: {average_ece_}")
-          loss_ECE_evolution["Cross-entropy loss"].append(loss_)
-          loss_ECE_evolution["ECE μ"].append(average_ece_)
-
+          loss_ECE_evolution["Cross-entropy loss"].append(loss)
+          loss_ECE_evolution["ECE μ"].append(average_ece)
+  
   return pd.DataFrame(loss_ECE_evolution)
 
 def plot_loss_ECE_evolution(loss_ECE_evolution_table, figure_filename):
-  # pyplot.xscale('symlog', linthreshx=20)
   loss_ECE_evolution_data = pd.melt(loss_ECE_evolution_table, ["Example", "Experiment", "Iteration"])
   cols = loss_ECE_evolution_data["Experiment"].unique().tolist()
   rows = loss_ECE_evolution_data["Example"].unique().tolist()
@@ -302,6 +297,10 @@ def plot_loss_ECE_evolution(loss_ECE_evolution_table, figure_filename):
   g = sns.lmplot(x = 'Iteration', y = 'value', hue = 'variable', col = 'Experiment', row = "Example", data = loss_ECE_evolution_data, order = 5, ci = False, legend = True, facet_kws = {"sharex": False, "sharey": False})
 
   for i, j in itertools.product(range(g.axes.shape[0]), range(g.axes.shape[1])):
+    if len(g.axes[i, j].lines) > 0:
+      data_1 = g.axes[i, j].lines[0].get_data()
+      data_2 = g.axes[i, j].lines[1].get_data()
+      g.axes[i, j].set_yscale('symlog', linthresh = min(max(data_1[1]), max(data_2[1])))
     g.axes[i, j].set_title("")
   for i in range(g.axes.shape[0]):
     g.axes[i, 0].set_ylabel("")
@@ -449,3 +448,28 @@ def analyze_ECE_difference_table(ECE_difference_table):
   ECE_before_after_delta = analysis_result_table["Delta"].mean()
   print(analysis_result_table)
   print(f"Average overall ECE difference: {ECE_before_after_delta}")
+
+def analyze_loss_ECE_evolution_table(loss_ECE_evolution_table):
+  correlation_tables = []
+
+  print("- Analyzing loss ECE evolution table -")
+  print("-- General μ ECE and cross-entropy loss correlation")
+  pearson_correlation = loss_ECE_evolution_table["Cross-entropy loss"].corr(loss_ECE_evolution_table["ECE μ"], method = "pearson")
+  print(pearson_correlation)
+
+  print("-- Example-specific μ ECE and cross-entropy loss correlation")
+  def get_group_ECE_loss_correlation(group):
+    pearson_correlation = group["Cross-entropy loss"].corr(group["ECE μ"], method = "pearson") 
+    return pd.Series([pearson_correlation], index = ["Pearson Correlation"])
+  correlation_tables.append(loss_ECE_evolution_table.groupby(["Example"]).apply(get_group_ECE_loss_correlation))
+
+  print("-- Experiment-specific μ ECE and cross-entropy loss correlation")
+  def get_group_ECE_loss_correlation(group):
+    pearson_correlation = group["Cross-entropy loss"].corr(group["ECE μ"], method = "pearson") 
+    return pd.Series([pearson_correlation], index = ["Pearson Correlation"])
+  correlation_tables.append(loss_ECE_evolution_table.groupby(["Experiment"]).apply(get_group_ECE_loss_correlation))
+
+  for correlation_table in correlation_tables:
+    print(correlation_table)
+
+  return correlation_tables

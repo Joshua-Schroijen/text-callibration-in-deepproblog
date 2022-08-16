@@ -1,49 +1,69 @@
-Results
+\section{Abbreviations and terminology used in this chapter}
+In this chapter the following additional abbreviations will be used:
+\begin{flushleft}
+  \renewcommand{\arraystretch}{1.1}
+  \begin{tabularx}{\textwidth}{@{}p{18mm}X@{}}
+  U. & Uncalibrated \\
+  C. & Calibrated \\
+  C. A. E. I. & Calibrated after each training iteration \\
+  A. L. N. & Added label noise
+  \end{tabularx}
+\end{flushleft}
 
-Table of accuracies of different examples, with different forms of calibration
-  -> + bar chart of this
-Table of (average) ECEs before and after calibration
-  -> + bar chart of this
-Average ECE evolution graphs during training vs. loss if relevant
+We will use the term experiment in this chapter to refer to the application of a calibration model (see section \ref{experimental_design_and_setup_section}) and/or label noise to a DeepProbLog example application.
 
+\section{Evaluation of model accuracy before and after calibration}
+In the data in table \ref{tbl:accuracies_table} we make the following observations:
+\begin{itemize}
+  \item In a majority of the examples (5 out of 9), the experiment associated with the highest final model accuracy was uncalibrated. When calibration yielded the highest accuracy for an example, it was simple post training calibration in all but one experiment.
+  \item In the absence of label noise, on average simple post training calibration reduced model accuracy by 12.14\% while calibrating after each training iteration on average reduced model accuracy by 9.40\%.
+  \item In the presence of label noise, on average simple post training calibration reduced model accuracy by 0.98\% while calibrating after each training iteration on average reduced model accuracy by 4.26\%.
+  \item Adding label noise on average severely reduces model accuracy (by around 10\%), except when post training calibration is used. In that case, accuracy still deteriorates on average, but only by a mere 0.2\%.
+\end{itemize}
+These trends can also be seen in figure \ref{fig:accuracies}.
 \input{Present_calibration_evaluation_results/accuracies_table}
-
-"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-
 \begin{figure}[htbp!]
   \centering
   \includegraphics[width=\linewidth]{Present_calibration_evaluation_results/accuracies.png}
-  \caption[Foo]{Foo}
+  \caption[Accuracies of each experiment]{Accuracies of each experiment}
   \label{fig:accuracies}
 \end{figure}
 \newpage
 
-"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-
+\section{Evaluation of model NN ECE before and after last calibration}
+In the data in table \ref{tbl:ECE_difference_table} we make the following observations:
+\begin{enumerate}
+  \item Simple post training calibration on average improved average model NN ECE. Without added label noise, the decrease was on average 0.004216. With added label noise, the decrease was on average 0.046372. In other words, the ECE improvement was an order of magnitude better in the presence of label noise.
+  \item Calibration after each training iteration on average improved or worsened average model NN ECE depending on whether label noise was present. Without added label noise, average model NN ECE increased or worsened by 0.050734. With added label noise, average model NN ECE decreased or improved on average by 0.025400.
+\end{enumerate}
+These trends can also be seen in figure \ref{fig:ECE_difference}.
 \input{Present_calibration_evaluation_results/ECE_difference_table}
-
-"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-
 \begin{figure}[htbp!]
   \centering
   \includegraphics[width=\linewidth]{Present_calibration_evaluation_results/ECE_differences.png}
-  \caption[Bar]{Bar}
+  \caption[Before \& after final model calibration step model NN ECE $\mu$ and $\sigma$ of each experiment]{Before \& after final model calibration step model NN ECE $\mu$ and $\sigma$ of each experiment}
   \label{fig:ECE_difference}
 \end{figure}
 \newpage
 
-"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+\section{Evaluation of model loss and average model NN ECE co-evolution}
+In the data in table \ref{tbl:loss_ECE_evolution_corr_by_example} and in table \ref{tbl:loss_ECE_evolution_corr_by_experiment} we make the following observations:
+\begin{enumerate}
+  \item There is significant variance in the Pearson correlation between average model NN ECE and model loss over all examples, ranging from medium positive correlations to medium negative correlations. However, the negative correlations tend to be stronger than the positive correlations.
+  \item The Pearson correlation between average model NN ECE and model loss over all experiments tends to be small to medium negative, with only calibration after each training iteration showing a small positive correlation when label noise is present.
+  \item The general Pearson correlation coefficient between average model NN ECE and model loss is -0.076, indicating a very small yet negative correlation.
+\end{enumerate}
 
-%\input{Present_calibration_evaluation_results/loss_ECE_evolution_table}
-
-"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-
+\input{Present_calibration_evaluation_results/loss_ECE_evolution_corr_by_example}
+\input{Present_calibration_evaluation_results/loss_ECE_evolution_corr_by_experiment}
+These trends can also be seen in figure \ref{fig:loss_ECE_evolution}.
 \begin{figure}[htbp!]
   \centering
   \includegraphics[width=\linewidth]{Present_calibration_evaluation_results/loss_ECE_evolution.png}
-  \caption[Baz]{Baz}
+  \caption[Co-evolution of average model NN ECE and model loss over iterations by example and experiment]{Co-evolution of average model NN ECE and model loss over iterations by example and experiment}
   \label{fig:loss_ECE_evolution}
 \end{figure}
 \newpage
 
-"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+\section{Stand-alone DenseNet Double calibration experiment}
+Double calibration of a stand-alone DenseNet trained on the CIFAR100 dataset was performed 100 times and the average change in ECE was found to be a decrease of 0.000536 in ECE, indicating that double calibration can slightly improve neural network calibration.
